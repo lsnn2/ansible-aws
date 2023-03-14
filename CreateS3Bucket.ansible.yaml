@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: create a S3 Bucket
+      amazon.aws.s3_bucket:
+        name: demo-bucket-lsnn2
+        state: present

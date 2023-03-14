@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Simple PUT operation
+      amazon.aws.s3_object:
+        bucket: demo-bucket-lsnn2
+        object: /init.yaml
+        src: /Users/siningli/Documents/git-repo/ansible_playbooks-aws/init.yaml
+        mode: put
+
