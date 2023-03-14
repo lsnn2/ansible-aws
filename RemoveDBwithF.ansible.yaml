@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:   
+    - name: remove the DB instance with a final snapshot
+      amazon.aws.rds_instance:
+        db_instance_identifier: "mydb-restored-snapshot"
+        state: absent
+        final_snapshot_identifier: "final-snapshot"

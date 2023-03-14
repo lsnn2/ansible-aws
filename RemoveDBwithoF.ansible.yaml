@@ -1,0 +1,11 @@
+    
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:       
+    - name: remove the DB instance without a final snapshot
+      amazon.aws.rds_instance:
+        db_instance_identifier: "ansible-test-aurora-db-instance"
+        state: absent
+        skip_final_snapshot: True

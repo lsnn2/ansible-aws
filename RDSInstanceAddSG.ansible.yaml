@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Add a new security group without purge
+      amazon.aws.rds_instance:
+        db_instance_identifier: ansible-test-aurora-db-instance
+        state: present
+        vpc_security_group_ids:
+        - sg-01bf2f4af7bbd7599
+        purge_security_groups: false

@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Restore DB from snapshot
+      amazon.aws.rds_instance:
+        db_instance_identifier: mydb-restored-snapshot
+        snapshot_identifier: 'my-new-snapshot'
+        creation_source: snapshot
+        engine: mariadb
+        state: present
+

@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Create a snapshot and wait until completion
+      amazon.aws.rds_instance_snapshot:
+        db_instance_identifier: ansible-test-aurora-db-instance
+        snapshot_id: 'my-new-snapshot'
+        state: present
+        wait: true
