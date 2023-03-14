@@ -1,0 +1,4 @@
+- name: Delete the user
+  amazon.aws.iam_user:
+    name: testuser1
+    state: absent
