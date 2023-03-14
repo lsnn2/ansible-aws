@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: "Delete sg"
+      amazon.aws.ec2_security_group:
+        region: us-east-1
+        name: "demo-sg"
+        state: absent

@@ -1,0 +1,16 @@
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: create a cloudformation stack
+      amazon.aws.cloudformation:
+        stack_name: "ansible-cloudformation"
+        state: "present"
+        region: "us-east-1"
+        disable_rollback: true
+        template: "init.yaml"
+        template_parameters:
+          InstanceTypeParameter: "t2.micro"
+          KeyName: "jenkins-key"
+        tags:
+          Stack: "ansible-cloudformation"

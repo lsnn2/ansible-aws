@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    ec2_ami: 
+      ubuntu18: "ami-0263e4deb427da90e"
+    vpc_id: "subnet-07188f0d50337ad80"
+  tasks:
+    - name: Launch EC2 Instance
+      amazon.aws.ec2_instance:
+        state: "terminated"
+        key_name: "jenkins-key"
+        instance_type: "t2.micro"
+        image_id: "{{ ec2_ami.ubuntu18 }}"
+        wait: yes
+        region: "us-east-1"
+        count: "1"
+        vpc_subnet_id: "{{ vpc_id }}"
+        network:
+          assign_public_ip: true
+        tags:
+          Name: "ec2-instance-ansible"
+        security_group: "default"

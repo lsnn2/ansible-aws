@@ -1,0 +1,13 @@
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Create a user
+      amazon.aws.iam_user:
+        name: testuser1
+        password: SomeSecurePassword1!
+        managed_policies:
+          - arn:aws:iam::aws:policy/AmazonSNSFullAccess
+        tags:
+          Env: Prod
+        state: present

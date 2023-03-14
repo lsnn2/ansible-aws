@@ -1,4 +1,8 @@
-- name: Delete the user
-  amazon.aws.iam_user:
-    name: testuser1
-    state: absent
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:  
+    - name: Delete the user
+      amazon.aws.iam_user:
+        name: testuser1
+        state: absent
