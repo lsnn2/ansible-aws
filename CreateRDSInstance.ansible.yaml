@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: create minimal rds instance in default VPC and default subnet group
+      amazon.aws.rds_instance:
+        engine: mariadb
+        db_instance_identifier: ansible-test-aurora-db-instance
+        instance_type: db.t2.small
+        password: "password"
+        username: "username"
+        allocated_storage: "8"
