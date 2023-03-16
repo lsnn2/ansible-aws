@@ -1,0 +1,50 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+  vars:
+    ec2_ami: 
+      ubuntu18: "ami-000ed5810ea2ca0a0"
+  tasks:
+    - name: Outline sg
+      amazon.aws.ec2_security_group:
+        name: "outline-sg"
+        description: sg with rule descriptions
+        vpc_id: "vpc-03d64ebbf4d2eedbf" 
+        region: ap-south-1
+        rules:
+          - proto: tcp
+            from_port: 0
+            to_port: 65535
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all on all TCP ports
+          - proto: udp
+            from_port: 0
+            to_port: 65535
+            cidr_ip: 0.0.0.0/0
+            rule_desc: allow all on all UDP ports
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 13.41.87.223/32
+            rule_desc: allow ssh to my ip
+    - name: create key pair using provided key_material
+      amazon.aws.ec2_key:
+        name: "outline-key"
+        key_material: "{{ lookup('file', './id_rsa.pub') }}"
+        region: ap-south-1
+    - name: Launch EC2 Instance
+      amazon.aws.ec2_instance:
+        key_name: "outline-key"
+        instance_type: "t2.micro"
+        image_id: "{{ ec2_ami.ubuntu18 }}"
+        wait: yes
+        region: "ap-south-1"
+        count: "1"
+        network:
+          assign_public_ip: true
+        tags:
+          Name: "ec2-instance-ansible"
+        security_group: "outline-sg"
+        user_data: '#!/bin/bash yes yes | sudo bash -c "$(wget -qO- https://raw.githubusercontent.com/Jigsaw-Code/outline-server/master/src/server_manager/install_scripts/install_server.sh)'
+        
